@@ -28,6 +28,19 @@ export default new Vuex.Store({
           // data will include name, email and token
           commit('SET_USER_DATA', data)
         })
+    },
+    login({ commit }, credentials) {
+      return axios
+        .post('//localhost:3000/login', credentials)
+        .then(({ data }) => {
+          // data will include name, email and token
+          commit('SET_USER_DATA', data)
+        })
+    }
+  },
+  getters: {
+    loggedIn(state) {
+      return !!state.user
     }
   }
 })
