@@ -19,7 +19,8 @@ const router = new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      meta: { requiresAuth: true }
     },
     {
       path: '/register',
@@ -32,6 +33,18 @@ const router = new Router({
       component: LoginUser
     }
   ]
+})
+
+// Navigation Guards
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem('user')
+
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    // this page do requires authentication and user hasn't logged in
+    // redirect to home
+    next('/')
+  }
+  next()
 })
 
 export default router
